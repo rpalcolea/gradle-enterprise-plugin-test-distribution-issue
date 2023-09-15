@@ -11,8 +11,8 @@ repositories {
 
 dependencies {
     implementation gradleApi()
-    compileOnly 'com.gradle:gradle-enterprise-gradle-plugin:3.15'
-    testImplementation 'com.gradle:gradle-enterprise-gradle-plugin:3.15'
+    compileOnly 'com.gradle:gradle-enterprise-gradle-plugin:3.10.1'
+    testImplementation 'com.gradle:gradle-enterprise-gradle-plugin:3.10.1'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
 }
 
