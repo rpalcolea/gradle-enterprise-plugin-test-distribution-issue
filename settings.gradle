@@ -1,9 +1,40 @@
-plugins {
-    id "com.gradle.enterprise" version "3.15"
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            url = uri("https://plugins.gradle.org/m2/")
+        }
+    }
+    dependencies {
+        classpath 'com.gradle:develocity-gradle-plugin:3.17.2'
+    }
 }
 
-gradleEnterprise {
-    server = "https://something.com"
+
+apply plugin: MyPlugin
+
+class MyPlugin implements Plugin<Settings> {
+
+    @Override
+    void apply(Settings settings) {
+        settings.pluginManager.apply(com.gradle.develocity.agent.gradle.DevelocityPlugin)
+    }
 }
 
-rootProject.name = 'enterprise-plugin-issue'
+rootProject.name = 'develocity-gradle-8_8-issue'
+
+['mymodule'].each { name ->
+    def projName = ":nebula-$name".replace('/', ':')
+
+    include projName
+    project(projName).with {
+        projectDir = new File('subprojects', name)
+        buildFileName = new File("${name}.gradle")
+    }
+}
+
+develocity {
+    buildScan {
+        publishing.onlyIf { false }
+    }
+}
